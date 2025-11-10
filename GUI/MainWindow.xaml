@@ -1,1 +1,145 @@
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="IPC Setup 101" 
+    Height="650" 
+    Width="850"
+    WindowStartupLocation="CenterScreen">
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <TextBlock Grid.Row="0" Text="IPC Configurations and Setup" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,15"/>
+        
+        <!-- Tab Control -->
+        <TabControl Grid.Row="1" Margin="0,10">
+            
+            <!-- Software Installation Tab -->
+            <TabItem Header="Software Installation">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Software List -->
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="SoftwarePanel" Orientation="Vertical">
+                            <!-- Software buttons will be added here dynamically -->
+                        </StackPanel>
+                    </ScrollViewer>
+                    
+                    <!-- Progress Section -->
+                    <GroupBox Grid.Row="1" Header="Installation Progress" Margin="0,10">
+                        <StackPanel>
+                            <TextBlock x:Name="ProgressText" Text="Ready to install..." Margin="5"/>
+                            <ProgressBar x:Name="ProgressBar" Height="15" Minimum="0" Maximum="100" Value="0" Margin="5"/>
+                        </StackPanel>
+                    </GroupBox>
+                    
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button x:Name="ButtonInstallAll" Content="Install All" Width="80" Height="25" Margin="5"/>
+                        <Button x:Name="ButtonRefreshSoftware" Content="Refresh List" Width="80" Height="25" Margin="5"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            
+            <!-- System Settings Tab -->
+            <TabItem Header="System Settings">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+        
+                    <!-- Settings Header -->
+                    <TextBlock Grid.Row="0" Text="System Configuration And Tweaks" 
+                    FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+        
+                    <!-- Tweaks Options -->
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="TweaksPanel" Orientation="Vertical">
+                            <!-- Tweaks will be dynamically added here -->
+                        </StackPanel>
+                    </ScrollViewer>
+        
+                    <!-- Quick Actions Section -->
+                    <GroupBox Grid.Row="2" Header="Network Settings and Configurations" Margin="0,10,0,5">
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="ButtonFlushDNS" Content="Flush DNS" 
+                                        Width="100" Height="25" Margin="5" 
+                                        ToolTip="Clear DNS resolver cache"/>
+                                <Button x:Name="ButtonResetWinsock" Content="Reset Winsock" 
+                                        Width="110" Height="25" Margin="5" 
+                                        ToolTip="Reset Windows Sockets API"/>
+                                <Button x:Name="ButtonNetworkReset" Content="Network Reset" 
+                                        Width="110" Height="25" Margin="5" 
+                                        ToolTip="Reset network adapters and settings"/>
+                                <Button x:Name="ButtonIPV6Reset" Content="Disable IPv6" 
+                                        Width="100" Height="25" Margin="5" 
+                                        ToolTip="Disable IPv6 on all network adapters"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
 
+                    <!-- Utilities -->
+                    <GroupBox Grid.Row="3" Header="Utilities Setup and Configurations" Margin="0,10,0,5">
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="ButtonEventViewerRegistryPermissions" Content="EventViewerPermit" 
+                                        Width="150" Height="25" Margin="5"
+                                        ToolTip="Allow permissions for everyone in Event Viewer"/>
+                                <Button x:Name="InstallMSMQComponents" Content="Install MSMQ Components" 
+                                        Width="150" Height="25" Margin="5"
+                                        ToolTip="Install Core MSMQ Components"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <!-- Power Options -->
+                    <GroupBox Grid.Row="4" Header="Power Options" Margin="0,10,0,5">
+                        <StackPanel Orientation="Horizontal">
+                                <Button x:Name="ButtonHighPerformance" Content="High Performance Power" 
+                                    Width="150" Height="25" Margin="5"
+                                    ToolTip="Change Power Mode to High Performance"/>
+                                <Button x:Name="ButtonTurnOffSleep" Content="Turn Off Sleep Mode" 
+                                    Width="150" Height="25" Margin="5"
+                                    ToolTip="Turn Off Sleep Mode"/>
+                                <Button x:Name="DisableHardDiskTimeout" Content="Disable Hard Disk Timeout" 
+                                    Width="150" Height="25" Margin="5"
+                                    ToolTip="Disables Hard Disk Timeout after a certain period"/>
+                        </StackPanel>
+                    </GroupBox>
+        
+                    <!-- Settings Action Buttons -->
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                        <Button x:Name="ButtonApplyTweaks" Content="Apply Selected Tweaks" 
+                                Width="140" Height="25" Margin="5"/>
+                        <Button x:Name="ButtonResetSettings" Content="Reset Selection" 
+                                Width="100" Height="25" Margin="5"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+        
+        <!-- Global Action Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button x:Name="ButtonExit" Content="Exit" Width="60" Height="25" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>
