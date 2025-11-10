@@ -1,0 +1,24 @@
+{
+  "SystemTweaks": [
+    {
+      "name": "Disable Windows Copilot",
+      "description": "Disable Windows Copilot and remove from taskbar",
+      "category": "Privacy",
+      "scriptFile": "Scripts\\DisableCopilot.ps1",
+      "requiresAdmin": true,
+      "dangerous": false,
+      "restartRequired": false,
+      "confirmationMessage": "This will disable Windows Copilot. Continue?"
+    },
+    {
+      "name": "Disable OneDrive",
+      "description": "Completely disable and remove OneDrive",
+      "category": "Privacy",
+      "scriptFile": "Scripts\\DisableOneDrive.ps1",
+      "requiresAdmin": true,
+      "dangerous": true,
+      "restartRequired": true,
+      "confirmationMessage": "This will permanently disable OneDrive and may move your files. Continue?"
+    }
+  ]
+}

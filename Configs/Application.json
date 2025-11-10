@@ -1,1 +1,108 @@
-
+{
+  "software": [
+    {
+      "name": "Notepad++",
+      "version": " 8.7.1",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\Notepad++\\npp.8.7.1.Installer.x64.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent --install",
+      "category": "Utilities"
+    },
+    {
+      "name": "TeamViewer",
+      "version": " 15.30.3.0",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\TeamViewer\\TeamViewer_Setup_15.30.3.0_x64.exe",
+      "installerType": "exe",
+      "silentArgs": "/S",
+      "category": "Utilities"
+    },
+    {
+      "name": "AnyDesk",
+      "version": " Latest",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\Anydesk\\AnyDesk.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent",
+      "category": "Utilities"
+    },
+    {
+      "name": "AdLink PCI(e)-785x",
+      "version": " R4.7.250527",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\Adlink PCI-785x - (HSL-16UL)\\Adlink PCI(e)-785x Win10\\PCI(e)-785x_WDM_R4.7.250527_win10.exe",
+      "installerType": "exe",
+      "silentArgs": "/S /v/qn",
+      "category": "Development"
+    },
+    {
+      "name": "AdLink PCI(e)-785x 64bits",
+      "version": " R2.6.250514",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\Adlink PCI-785x - (HSL-16UL)\\Adlink PCI(e)-785x Win10\\PCI(e)-785x_WDM_x64_R2.6.250514_win10.exe",
+      "installerType": "exe",
+      "silentArgs": "/S /v/qn",
+      "category": "Development"
+    },
+    {
+      "name": "AdLink PCI-785x",
+      "version": " R4.0.190109",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\Adlink PCI-785x - (HSL-16UL)\\Adlink PCI-785x Win10\\PCI-785x_WDM_R4.0.190109_Win10.exe",
+      "installerType": "exe",
+      "silentArgs": "/S /v/qn",
+      "category": "Development"
+    },
+    {
+      "name": "AdLink PCI-785x 64bits",
+      "version": " R4.0.190109",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\Adlink PCI-785x - (HSL-16UL)\\Adlink PCI-785x Win10\\PCI-785x_WDM_x64_R1.9.190109_Win10.exe",
+      "installerType": "exe",
+      "silentArgs": "/S /v/qn",
+      "category": "Development"
+    },
+    {
+      "name": "Visual Studio 2017 Remote Tools x64",
+      "version": " Latest",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\VS 2017 Remote Debug Tools\\VS 2017\\VS_RemoteTools_x64.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent",
+      "category": "Development"
+    },
+    {
+      "name": "Visual Studio 2017 Remote Tools x86",
+      "version": " Latest",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\VS 2017 Remote Debug Tools\\VS 2017\\VS_RemoteTools_x86.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent",
+      "category": "Development"
+    },
+    {
+      "name": "Visual Studio 2017 Redistribution Package x64",
+      "version": " Latest",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\VS 2017 Redistribution Package\\VC_redist.x64.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent",
+      "category": "Development"
+    },
+    {
+      "name": "Visual Studio 2017 Redistribution Package x86",
+      "version": " Latest",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\VS 2017 Redistribution Package\\VC_redist.x86.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent",
+      "category": "Development"
+    },
+    {
+      "name": "Microsoft SQL Server 2008 Express With Tools x64",
+      "version": " Latest",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\MS SQL Server 2008 Express with Tools\\SQLEXPRWT_x64_ENU.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent",
+      "category": "Development"
+    },
+    {
+      "name": "Microsoft SQL Server 2008 Express With Tools x86",
+      "version": " Latest",
+      "networkPath": "\\\\192.0.0.35\\csd-sdd\\Software Installer\\MS SQL Server 2008 Express with Tools\\SQLEXPRWT_x86_ENU.exe",
+      "installerType": "exe",
+      "silentArgs": "--silent",
+      "category": "Development"
+    }
+  ]
+}
