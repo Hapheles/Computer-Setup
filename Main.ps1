@@ -56,7 +56,8 @@ catch {
 $modulesPath = Join-Path $scriptPath "Modules"
 $modules = @(
     @{ Name = "ApplicationInstaller"; File = "ApplicationInstaller.psm1" },
-    @{ Name = "SystemSettings"; File = "SystemSettings.psm1" }
+    @{ Name = "SystemSettings"; File = "SystemSettings.psm1" },
+    @{ Name = "ActivationScripts"; File = "ActivationScripts.psm1"}
 )
 
 foreach ($module in $modules) {
@@ -116,6 +117,10 @@ try {
     $settingsConfigPath = Join-Path $scriptPath "Configs\SystemSetting.json"
     Initialize-SettingsTab -Window $window -SettingsPath $settingsConfigPath
 
+    Write-Host "Initializing activation scripts tab..." -ForegroundColor White
+    $scriptsConfigPath = Join-Path $scriptPath "Configs\Scripts.json"
+    Initialize-ActivationTab -Window $window -ScriptsPath $scriptsConfigPath
+
     # Set up exit button
     $buttonExit = $window.FindName("ButtonExit")
     $buttonExit.Add_Click({ 
@@ -148,7 +153,7 @@ This usually means:
 2. There's an error in the button click event handler
 3. A function is trying to use a control that doesn't exist
 
-Please run .\Debug.ps1 to check your XAML file.
+Please run .\Debug.ps1 to check the XAML file.
 "@
     
     [System.Windows.MessageBox]::Show($errorMsg, "Critical Error", "OK", "Error") | Out-Null
