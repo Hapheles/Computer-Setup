@@ -1,0 +1,27 @@
+{
+    "Scripts": [
+        {
+            "name": "Microsoft and Windows activation 8, 10, 11",
+            "description": "Microsoft and Windows activation for 8, 10, 11",
+            "cmdline": "irm https://get.activated.win | iex"
+        },
+
+        {
+            "name": "Microsoft and Windows activation Win 10, 11",
+            "description": "Microsoft and Windows activation ONLY FOR Win 10, 11, (if blocked by DNS/ISP)",
+            "cmdline": "iex (curl.exe -s --doh-url https://1.1.1.1/dns-query https://get.activated.win | Out-String)"
+        },
+
+        {
+            "name": "Microsoft and Windows activation Win 7 above",
+            "description": "Microsoft and Windows activation for Win 7 and above",
+            "cmdline": "iex ((New-Object Net.WebClient).DownloadString('https://get.activated.win'))"
+        },
+
+        {
+            "name": "Microsoft and Windows activation Win Vista and above",
+            "description": "Activation of Microsoft and Windows the traditional way via command file",
+            "cmdline": "\\192.0.0.35\\sdd-media\\User\\zw_ong\\IPCSetup\\MAS_AIO.cmd"
+        }
+    ]
+}
