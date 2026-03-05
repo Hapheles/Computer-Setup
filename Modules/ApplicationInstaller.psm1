@@ -29,17 +29,9 @@ function Initialize-SoftwareTab {
     try {
         # Get controls with null checks
         $softwarePanel = $Window.FindName("SoftwarePanel")
-        $progressText = $Window.FindName("ProgressText")
-        $progressBar = $Window.FindName("ProgressBar")
-        $buttonInstallAll = $Window.FindName("ButtonInstallAll")
-        $buttonRefreshSoftware = $Window.FindName("ButtonRefreshSoftware")
         
         Write-Host "[Initialize-SoftwareTab] Controls found:" -ForegroundColor Gray
         Write-Host "  SoftwarePanel: $($null -ne $softwarePanel)" -ForegroundColor Gray
-        Write-Host "  ProgressText: $($null -ne $progressText)" -ForegroundColor Gray
-        Write-Host "  ProgressBar: $($null -ne $progressBar)" -ForegroundColor Gray
-        Write-Host "  ButtonInstallAll: $($null -ne $buttonInstallAll)" -ForegroundColor Gray
-        Write-Host "  ButtonRefreshSoftware: $($null -ne $buttonRefreshSoftware)" -ForegroundColor Gray
         
         if (-not $softwarePanel) {
             throw "SoftwarePanel control not found in XAML"
@@ -57,51 +49,129 @@ function Initialize-SoftwareTab {
             Write-Host "[Initialize-SoftwareTab] No software found" -ForegroundColor Yellow
             return
         }
-        
-        # Create software buttons
-        Write-Host "[Initialize-SoftwareTab] Creating buttons for $($Global:SoftwareList.Count) items..." -ForegroundColor Gray
-        
-        foreach ($software in $Global:SoftwareList) {
-            $button = New-Object System.Windows.Controls.Button
-            $button.Content = "$($software.name)"
-            $button.ToolTip = "Version: $($software.version)`nCategory: $($software.category)"
-            $button.Height = 35
-            $button.Margin = New-Object System.Windows.Thickness(5)
-            $button.Background = [System.Windows.Media.Brushes]::LightBlue
-            $button.Tag = $software
-            
-            # Click Event Handler
-            $button.Add_Click({
-                Write-Host "[Button Click] Software: $($this.Tag.name)" -ForegroundColor Cyan
+
+        #Group software by category
+        $categories = $Global:SoftwareList | Group-Object category | Sort-Object Name
+
+        Write-Host "[Intialize-SoftwareTab] Found$($categories.Count) categories" -ForegroundColor Gray
+
+        foreach ($category in $categories) {
+            Write-Host "[Initialize-SoftwareTab] Processing category: $($category.Name). Category Count: $($categories.Count) items" - Foreground Gray
+
+            # category header with styling
+            $categoryHeader = New-Object System.Windows.Controls.TextBlock
+            $categoryHeader.Text = $category.Name.ToUpper()
+            $categoryHeader.FontWeight =  [System.Windows.FontWeight]::Bold
+            $categoryHeader.FontSize = 16;
+            $categoryHeader.Margin = New-object System.Windows.Thickness(0, 15, 0, 5)
+            $categoryHeader.Foreground = [System.Windows.Media.Brushes]::DarkBlue
+            $categoryHeader.Background = [System.Windows.Media.Brushes]::LightGray
+            $categoryHeader.Padding = New-Object System.Windows.Thickness(5)
+            $softwarePanel.Children.Add($categoryheader)
+
+            # category count badge
+            $countBadge = New-Object System.Windows.Controls.TextBlock
+            $countBadge.Text = "[$($category.Count) application]"
+            $countBadge.FontSize = 12
+            $countBadge.Foreground = [System.Windows.Media.Brushes]::Gray
+            $countBadge.FontStyle = [System.Windows.Media.FontStyle]::Italic
+            $categoryHeader.InLines.Add($countBadge)
+
+            # Seperator line
+            $separator = New-Object System.Windows.Controls.Border
+            $separator.Height = 2
+            $separator.Background = [System.Windows.Media.Brushes]::LightGray
+            $separator.Margin = New-Object System.Windows.Thickness(0,0,0,10)
+            $softwarePanel.Children.Add($separator)
+
+            # Add software buttons for this category in a grid layout
+            $itemsWrapPanel = New-Object System.Windows.Controls.WrapPanel
+            $itemsWrapPanel.Orientation = "Horizontal"
+            $itemsWrapPanel.HorizontalAlignment = "Left"
+
+            foreach ($software in $category.Group | Sort-Object name) {
+                Write-Host "[Initialize-SoftwareTab] Creating buttons for $($Global:SoftwareList.Count) items..." -ForegroundColor Gray
+
+                # Create borders
+                $buttonBorder = New-Object System.Windows.Controls.Border
+                $buttonBorder.BorderThickness = New-Object System.Windows.Thickness(1)
+                $buttonBorder.BorderBrush = [System.Windows.Media.Brushes]::LightGray
+                $buttonBorder.CornerRadius = New-Object System.Windows.CornerRadius(5)
+                $buttonBorder.Margin = New-Object System.Windows.Thickness(5)
+                $buttonBorder.Background = [System.Windows.Media.Brushes]::White
+                $buttonBorder.Width = 200
+                $buttonBorder.Height = 80
                 
-                if ($Global:IsInstalling) {
-                    Write-Host "[Button Click] Installation already in progress" -ForegroundColor Yellow
-                    return
-                }
+                # Create stack panel for button content
+                $stackPanel = New-Object System.Windows.Controls.StackPanel
+                $stackPanel.Orientation = "Vertical"
+                $stackPanel.Margin = New-Object System.Windows.Thickness(5)
                 
-                $Global:IsInstalling = $true
-                try {
-                    $selectedSoftware = $this.Tag
-                    Write-Host "[Button Click] Starting installation: $($selectedSoftware.name)" -ForegroundColor Green
-                    
-                    $result = Install-Software -Software $selectedSoftware -Window $Window
-                    Write-Host "[Button Click] Installation result: $result" -ForegroundColor Green
-                }
-                catch {
-                    Write-Host "[Button Click] ERROR: $($_.Exception.Message)" -ForegroundColor Red
-                }
-                finally {
-                    $Global:IsInstalling = $false
-                }
-            })
-            
-            $softwarePanel.Children.Add($button)
+                # Software name
+                $nameText = New-Object System.Windows.Controls.TextBlock
+                $nameText.Text = $software.name
+                $nameText.FontWeight = [System.Windows.FontWeights]::Bold
+                $nameText.FontSize = 12
+                $nameText.TextWrapping = [System.Windows.TextWrapping]::Wrap
+                $stackPanel.Children.Add($nameText)
+                
+                # Version
+                $versionText = New-Object System.Windows.Controls.TextBlock
+                $versionText.Text = "v$($software.version)"
+                $versionText.FontSize = 10
+                $versionText.Foreground = [System.Windows.Media.Brushes]::Gray
+                $stackPanel.Children.Add($versionText)
+                
+                # Install button
+                $installButton = New-Object System.Windows.Controls.Button
+                $installButton.Content = "Install"
+                $installButton.Height = 25
+                $installButton.Width = 80
+                $installButton.Margin = New-Object System.Windows.Thickness(0,5,0,0)
+                $installButton.HorizontalAlignment = "Left"
+                $installButton.Background = [System.Windows.Media.Brushes]::LightSteelBlue
+                $installButton.Tag = $software
+
+                # Add Click Event
+                $installButton.Add_Click({
+                    Write-Host "[Button Click] Software: $($this.Tag.name)" -ForegroundColor Cyan
+
+                    if ($Global:IsInstalling) {
+                        Write-Host "[Button Click] Installation already in progress" -ForegroundColor Yellow
+                        [System.Windows.MessageBox]::Show("Please wait for current installation to complete.", "Busy", "OK", "Warning") | Out-Null
+                        return
+                    }
+
+                    $Global:IsInstalling = $true
+                    try {
+                        $selectedSoftware = $this.Tag
+                        Write-Host "[Button Click] Starting installation: $($selectedSoftware.name)" -ForegroundColor Green
+                        
+                        $result = Install-Software -Software $selectedSoftware -Window $Window
+                        Write-Host "[Button Click] Installation result: $result" -ForegroundColor Green
+                    }
+                    catch {
+                        Write-Host "[Button Click] ERROR in click handler: $($_.Exception.Message)" -ForegroundColor Red
+                        [System.Windows.MessageBox]::Show("Error starting installation: $($_.Exception.Message)", "Error", "OK", "Error") | Out-Null
+                    }
+                    finally {
+                        $Global:IsInstalling = $false
+                    }
+                })
+
+                $stackPanel.Children.Add($installButton)
+                $buttonBorder.Child = $stackPanel
+                $itemsWrapPanel.Children.Add($buttonBorder)
+            }
+
+            $softwarePanel.Children.Add($itemsWrapPanel)
         }
-        
-        Write-Host "[Initialize-SoftwareTab] Completed with $($Global:SoftwareList.Count) buttons" -ForegroundColor Green
+                
+        Write-Host "[Initialize-SoftwareTab] Completed with $($categories.Count) categories" -ForegroundColor Green
     }
     catch {
         Write-Host "[Initialize-SoftwareTab] ERROR: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "Stack trace: $($_.Exception.StackTrace)" -ForegroundColor Red
         throw
     }
 }
