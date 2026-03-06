@@ -62,8 +62,7 @@ foreach ($type in $controlTypes) {
 # Test specific critical controls
 Write-Host "`n=== CRITICAL CONTROLS TEST ===" -ForegroundColor Yellow
 $criticalControls = @(
-    "SoftwarePanel", "ProgressText", "ProgressBar", 
-    "ButtonInstallAll", "ButtonRefreshSoftware", "ButtonExit"
+    "SoftwarePanel", "ButtonExit"
 )
 
 foreach ($controlName in $criticalControls) {

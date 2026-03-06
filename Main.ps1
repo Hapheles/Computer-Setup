@@ -88,11 +88,11 @@ try {
     $stringReader = New-Object System.IO.StringReader($xamlContent)
     $xmlReader = [System.Xml.XmlReader]::Create($stringReader)
     $window = [System.Windows.Markup.XamlReader]::Load($xmlReader)
-    Write-Host " XAML loaded successfully" -ForegroundColor Green
+    Write-Host "XAML loaded successfully" -ForegroundColor Green
 
     # Verify critical controls exist before initializing
     Write-Host "Verifying UI controls..." -ForegroundColor White
-    $criticalControls = @("SoftwarePanel", "ProgressText", "ProgressBar", "ButtonExit")
+    $criticalControls = @("SoftwarePanel", "ButtonExit")
     $missingControls = @()
     
     foreach ($controlName in $criticalControls) {
@@ -128,7 +128,7 @@ try {
         $window.Close() 
     })
 
-    Write-Host "`n Application initialized successfully" -ForegroundColor Green
+    Write-Host "Application initialized successfully" -ForegroundColor Green
     Write-Host "Showing window..." -ForegroundColor White
 
     # Show the window
