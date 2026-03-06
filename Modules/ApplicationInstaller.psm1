@@ -61,7 +61,7 @@ function Initialize-SoftwareTab {
             # category header with styling
             $categoryHeader = New-Object System.Windows.Controls.TextBlock
             $categoryHeader.Text = $category.Name.ToUpper()
-            $categoryHeader.FontWeight =  [System.Windows.FontWeight]::Bold
+            $categoryHeader.FontWeight =  [System.Windows.FontWeights]::Bold
             $categoryHeader.FontSize = 16;
             $categoryHeader.Margin = New-object System.Windows.Thickness(0, 15, 0, 5)
             $categoryHeader.Foreground = [System.Windows.Media.Brushes]::DarkBlue
@@ -71,10 +71,10 @@ function Initialize-SoftwareTab {
 
             # category count badge
             $countBadge = New-Object System.Windows.Controls.TextBlock
-            $countBadge.Text = "[$($category.Count) application]"
+            $countBadge.Text = "[$($category.Count) applications]"
             $countBadge.FontSize = 12
             $countBadge.Foreground = [System.Windows.Media.Brushes]::Gray
-            $countBadge.FontStyle = [System.Windows.Media.FontStyle]::Italic
+            $countBadge.FontStyle = [System.Windows.FontStyles]::Italic
             $categoryHeader.InLines.Add($countBadge)
 
             # Seperator line
@@ -90,8 +90,6 @@ function Initialize-SoftwareTab {
             $itemsWrapPanel.HorizontalAlignment = "Left"
 
             foreach ($software in $category.Group | Sort-Object name) {
-                Write-Host "[Initialize-SoftwareTab] Creating buttons for $($Global:SoftwareList.Count) items..." -ForegroundColor Gray
-
                 # Create borders
                 $buttonBorder = New-Object System.Windows.Controls.Border
                 $buttonBorder.BorderThickness = New-Object System.Windows.Thickness(1)
@@ -100,7 +98,7 @@ function Initialize-SoftwareTab {
                 $buttonBorder.Margin = New-Object System.Windows.Thickness(5)
                 $buttonBorder.Background = [System.Windows.Media.Brushes]::White
                 $buttonBorder.Width = 200
-                $buttonBorder.Height = 80
+                $buttonBorder.Height = 90
                 
                 # Create stack panel for button content
                 $stackPanel = New-Object System.Windows.Controls.StackPanel
