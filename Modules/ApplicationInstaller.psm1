@@ -202,7 +202,7 @@ function Install-Software {
         $localPath = Join-Path $env:TEMP $fileName
         Copy-Item -Path $networkPath -Destination $localPath -Force
         
-        # Try to unblock file
+        # Unblock file that prevents installation due to security risks
         try { Unblock-File -Path $localPath -ErrorAction SilentlyContinue } catch { }
         
         # Run installer

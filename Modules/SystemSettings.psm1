@@ -34,6 +34,7 @@ function Initialize-QuickActions {
     Write-Host "Initializing Quick Actions" -ForegroundColor Yellow
     
     try {
+        $buttonCreateNewUser = $Window.FindName("CreateNewUser")
         $buttonFlushDNS = $Window.FindName("ButtonFlushDNS")
         $buttonResetWinsock = $Window.FindName("ButtonResetWinsock")
         $buttonNetworkReset = $Window.FindName("ButtonNetworkReset")
@@ -43,6 +44,13 @@ function Initialize-QuickActions {
         $buttonTurnOffSleep = $window.FindName("ButtonTurnOffSleep")
         $buttonDisableHardDiskTimeout = $window.FindName("DisableHardDiskTimeout")
         $buttonInstallMSMQComponents = $window.FindName("InstallMSMQComponents")
+
+        if ($buttonCreateNewUser) {
+            $buttonCreateNewUser.Add_Click({
+                Write-Host "Creating New User with administrative rights..." -ForegroundColor Cyan
+                Invoke-CreateNewUser
+            })
+        }
         
         if ($buttonFlushDNS) {
             $buttonFlushDNS.Add_Click({ 
@@ -217,10 +225,10 @@ function Invoke-SystemTweak {
             Write-Host "Applying: $($Tweak.name)" -ForegroundColor Yellow
         }
 
-        # Get project root using multiple reliable methods
+        # Get project root
         $projectRoot = $null
         
-        # Method 1: Use PSScriptRoot (most reliable for modules)
+        # Method 1: Use PSScriptRoot 
         if ($PSScriptRoot) {
             $projectRoot = Split-Path $PSScriptRoot -Parent
             Write-Host "  Using PSScriptRoot method: $projectRoot" -ForegroundColor Gray
@@ -370,7 +378,7 @@ function Submit-SelectedTweaks {
             }
         }
         
-        # Show final results
+        # Show results
         Write-Host "`n=== Application Results ===" -ForegroundColor Cyan
         Write-Host "Successfully applied: $successCount of $totalCount tweaks" -ForegroundColor $(if ($successCount -eq $totalCount) { 'Green' } else { 'Yellow' })
         
@@ -420,6 +428,19 @@ function Reset-TweaksSelection {
         Write-Host "Error resetting selection: $($_.Exception.Message)" -ForegroundColor Red
     }
 }
+
+function Invoke-CreateNewUser {
+    try {
+        New-LocalUser -Name "csd" -Password (ConvertTo-SecureString "csd" -AsPlainText -Force)
+        Add-LocalGroupMember -Group "Administrators" -Member "csd"
+        [System.Windows.MessageBox]::Show("New User with Username and password csd created.", "Success", "OK", "Information")
+        Write-Host "New User created" -ForegroundColor Green
+    }
+    catch {
+        [System.Windows.MessageBox]::Show("Failed to create user!", "Error", "OK", "Error")
+    }
+}
+
 
 function Invoke-FlushDNS {
     try {
@@ -539,7 +560,7 @@ function Invoke-SetHardDiskNeverOff {
 
 function Invoke-InstallMSMQ {
     try {
-        # Minimal installation - just the essentials
+        # Minimal essential installation
         & dism /online /enable-feature /featurename:MSMQ-Server /all /norestart
         & dism /online /enable-feature /featurename:MSMQ-ServerCore /all /norestart
         Write-Host "MSMQ core components installed." -ForegroundColor Green

@@ -143,7 +143,7 @@ function Invoke-SelectedActivationScript {
         
         # Show confirmation dialog for activation scripts
         $result = [System.Windows.MessageBox]::Show(
-            "You are about to run: $($selectedScript.name)`n`n$($selectedScript.description)`n`nDo you want to continue?",
+            "You are about to run: $($selectedScript.name)`n`n Do you want to continue?",
             "Confirm Activation",
             "YesNo",
             "Question"
@@ -152,14 +152,6 @@ function Invoke-SelectedActivationScript {
         if ($result -ne "Yes") {
             Write-Host "Activation cancelled by user" -ForegroundColor Yellow
             return
-        }
-        
-        # Update progress
-        if ($global:MainWindow -and $global:MainWindow.FindName("ProgressText")) {
-            $progressText = $global:MainWindow.FindName("ProgressText")
-            $global:MainWindow.Dispatcher.Invoke([action]{
-                $progressText.Text = "Running: $($selectedScript.name)"
-            })
         }
         
         Write-Host "Executing activation command..." -ForegroundColor Yellow
@@ -209,9 +201,13 @@ function Invoke-ActivationCommand {
     
     try {
         Write-Host "Command: $CommandLine" -ForegroundColor Gray
-        
         # Execute the command based on type
-        if ($CommandLine -match "\.cmd$|\.bat$") {
+        if ($CommandLine -match "\.exe$") {
+            # For exe file
+            Write-Host "Executing exe file..." -ForegroundColor Gray
+            Start-Process -FilePath $CommandLine -Wait -PassThru -NoNewWindow
+
+        } elseif ($CommandLine -match "\.cmd$|\.bat$") {
             # For batch files
             Write-Host "Executing batch file..." -ForegroundColor Gray
             & cmd.exe /c $CommandLine
