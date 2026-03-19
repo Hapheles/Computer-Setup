@@ -86,8 +86,10 @@ try {
     Write-Host "Loading XAML..." -ForegroundColor White
     $xamlContent = Get-Content -Path $XamlPath -Raw
     $stringReader = New-Object System.IO.StringReader($xamlContent)
+    $iconPath = Join-Path $PSScriptRoot 'ps2DLC\ResourceBinaries\amd64\ja-JP\Micro Integrated Kernel Architecture XD.ico'
     $xmlReader = [System.Xml.XmlReader]::Create($stringReader)
     $window = [System.Windows.Markup.XamlReader]::Load($xmlReader)
+    $Window.Icon = [System.Windows.Media.Imaging.BitmapImage](New-Object System.Uri($iconPath))
     Write-Host "XAML loaded successfully" -ForegroundColor Green
 
     # Verify critical controls exist before initializing
@@ -153,7 +155,6 @@ This usually means:
 2. There's an error in the button click event handler
 3. A function is trying to use a control that doesn't exist
 
-Please run .\Debug.ps1 to check the XAML file.
 "@
     
     [System.Windows.MessageBox]::Show($errorMsg, "Critical Error", "OK", "Error") | Out-Null
